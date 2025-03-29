@@ -55,9 +55,18 @@
         </div>
         
         <div class="form-group">
-            <label>Удобное время</label>
-            <input type="text" name="preferred_time" placeholder="Например: вечер после 18:00" required>
-        </div>
+    <label>Дата консультации</label>
+    <input type="date" name="consultation_date" id="datePicker" required>
+</div>
+
+<div class="form-group">
+    <label>Время</label>
+    <select name="consultation_time" required>
+        <option value="10:00-11:00">10:00 - 11:00</option>
+        <option value="14:00-15:00">14:00 - 15:00</option>
+        <option value="18:00-19:00">18:00 - 19:00</option>
+    </select>
+</div>
         
         <div class="form-group">
             <label>Краткое описание (необязательно)</label>
@@ -66,5 +75,9 @@
         
         <button type="submit">Отправить запрос</button>
     </form>
+<script>
+    // Запрет прошедших дат
+    document.getElementById('datePicker').min = new Date().toISOString().split('T')[0];
+</script>
 </body>
 </html>
