@@ -78,7 +78,11 @@
   </div>
 
   <button type="submit">Отправить запрос</button>
-</form>
+        document.querySelector('form').addEventListener('submit', function(e) {
+  const date = this.querySelector('[name="consultation_date"]').value;
+  this.querySelector('[name="text"]').value = `Дата: ${date}`;
+});
+    </form>
 <script>
     // Запрет прошедших дат
     document.getElementById('datePicker').min = new Date().toISOString().split('T')[0];
