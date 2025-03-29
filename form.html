@@ -43,15 +43,21 @@
     <h1>Форма запроса</h1>
     <form id="requestForm" action="https://api.telegram.org/bot7807072682:AAG8FV4Eqb9Y8jSI3gdwJP5CywEP_Mcrtb8/sendMessage" method="POST">
   <input type="hidden" name="chat_id" value="1222408670">
- <input type="hidden" name="text" value="📋 <b>Новая заявка на консультацию</b>
+<input type="hidden" name="text" value="━━━━━━━━━━━━
+📅 ${new Date().toLocaleString('ru-RU')}
 ━━━━━━━━━━━━
-🗓 <b>Дата:</b> %consultation_date%
-⏰ <b>Время:</b> %consultation_time%
-💡 <b>Тип:</b> %consultation_type%
-✍️ <b>Описание:</b> %message%
+📋 <b>Новая заявка</b>
+🗓 <b>Дата:</b> <%consultation_date%>
+⏰ <b>Время:</b> <%consultation_time%>
+💡 <b>Тип:</b> <%consultation_type%>
+${message ? '✍️ <b>Описание:</b> ' + message : '✖️ Без описания'}
 ━━━━━━━━━━━━
-🆔 <i>ID клиента:</i> #{{random_id}}">
-  
+🆔 <i>ID:</i> #${Date.now().toString().slice(-4)}">
+  <input type="hidden" name="reply_markup" value='{
+  "inline_keyboard": [
+    [{"text":"✅ Подтвердить", "callback_data":"accept_${Date.now()}"}],
+    [{"text":"🔄 Перенести", "callback_data":"reschedule_${Date.now()}"}]
+  ]}'>
   <!-- Все ваши текущие поля формы (календарь, выбор времени и т.д.) -->
   <div class="form-group">
     <label>Тип консультации</label>
@@ -83,17 +89,28 @@
   <button type="submit">Отправить запрос</button>
         <script>
   document.querySelector('form').addEventListener('submit', function(e) {
-    // Подставляем реальные значения
-    const date = this.querySelector('[name="consultation_date"]').value;
-    const time = this.querySelector('[name="consultation_time"]').value;
-    const type = this.querySelector('[name="consultation_type"]').value;
-    const message = this.querySelector('[name="message"]').value;
+    // Получаем данные из формы
+    const formData = new FormData(this);
     
-    // Форматируем текст
-    this.querySelector('[name="text"]').value = 
-      `📋 <b>Новая заявка на консультацию</b>\n━━━━━━━━━━━━\n🗓 <b>Дата:</b> ${date}\n⏰ <b>Время:</b> ${time}\n💡 <b>Тип:</b> ${type}\n✍️ <b>Описание:</b> ${message}\n━━━━━━━━━━━━\n🆔 <i>ID клиента:</i> #${Math.floor(Math.random() * 1000)}`;
-  });
-</script>
+    // Форматируем текст для Telegram
+    const textMsg = `━━━━━━━━━━━━
+📅 ${new Date().toLocaleString('ru-RU')}
+━━━━━━━━━━━━
+📋 <b>Новая заявка</b>
+🗓 <b>Дата:</b> ${formData.get('consultation_date')}
+⏰ <b>Время:</b> ${formData.get('consultation_time')}
+💡 <b>Тип:</b> ${formData.get('consultation_type')}
+${formData.get('message') ? '✍️ <b>Описание:</b> ' + formData.get('message') : '✖️ Без описания'}
+━━━━━━━━━━━━
+🆔 <i>ID:</i> #${Date.now().toString().slice(-4)}`;
+
+    // Обновляем скрытые поля
+    this.querySelector('[name="text"]').value = textMsg;
+    this.querySelector('[name="reply_markup"]').value = JSON.stringify({
+      inline_keyboard: [
+        [{text: "✅ Подтвердить", callback_data: `accept_${Date.now()}`}],
+        [{text: "🔄 Перенести", callback_data: `reschedule_${Date.now()}`}]
+    });
     </form>
 <script>
     // Запрет прошедших дат
