@@ -43,16 +43,14 @@
     <h1>Форма запроса</h1>
     <form id="requestForm" action="https://api.telegram.org/bot7807072682:AAG8FV4Eqb9Y8jSI3gdwJP5CywEP_Mcrtb8/sendMessage" method="POST">
   <input type="hidden" name="chat_id" value="1222408670">
-<input type="hidden" name="text" value="━━━━━━━━━━━━
-📅 ${new Date().toLocaleString('ru-RU')}
-━━━━━━━━━━━━
-📋 <b>Новая заявка</b>
-🗓 <b>Дата:</b> <%consultation_date%>
+<input type="hidden" name="text" value="📅 <b>Дата:</b> <%consultation_date%>
 ⏰ <b>Время:</b> <%consultation_time%>
 💡 <b>Тип:</b> <%consultation_type%>
 ${message ? '✍️ <b>Описание:</b> ' + message : '✖️ Без описания'}
 ━━━━━━━━━━━━
-🆔 <i>ID:</i> #${Date.now().toString().slice(-4)}">
+🆔 ID: #${Date.now().toString().slice(-4)}">
+📅 ${new Date().toLocaleString('ru-RU')}
+
   <input type="hidden" name="reply_markup" value='{
   "inline_keyboard": [
     [{"text":"✅ Подтвердить", "callback_data":"accept_${Date.now()}"}],
@@ -69,7 +67,10 @@ ${message ? '✍️ <b>Описание:</b> ' + message : '✖️ Без опи
 
   <div class="form-group">
     <label>Дата консультации</label>
-    <input type="date" name="consultation_date" id="datePicker" required>
+   <input type="date" name="consultation_date" id="datePicker" 
+       min="2025-03-29" 
+       value="2025-03-29"
+       required>
   </div>
 
   <div class="form-group">
