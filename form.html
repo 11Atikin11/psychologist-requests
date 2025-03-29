@@ -44,10 +44,10 @@
     <form id="requestForm" action="https://api.telegram.org/bot7807072682:AAG8FV4Eqb9Y8jSI3gdwJP5CywEP_Mcrtb8/sendMessage" method="POST">
   <input type="hidden" name="chat_id" value="1222408670">
   <input type="hidden" name="text" value="📌 Новая заявка:
-🗓 Дата: <%consultation_date%>
-⏰ Время: <%consultation_time%>
-💬 Тип: <%consultation_type%>
-✍️ Описание: <%message%>">
+🗓 Дата: %consultation_date%
+⏰ Время: %consultation_time%
+💬 Тип: %consultation_type%
+✍️ Описание: %message%>"
   
   <!-- Все ваши текущие поля формы (календарь, выбор времени и т.д.) -->
   <div class="form-group">
@@ -78,10 +78,6 @@
   </div>
 
   <button type="submit">Отправить запрос</button>
-        document.querySelector('form').addEventListener('submit', function(e) {
-  const date = this.querySelector('[name="consultation_date"]').value;
-  this.querySelector('[name="text"]').value = `Дата: ${date}`;
-});
     </form>
 <script>
     // Запрет прошедших дат
