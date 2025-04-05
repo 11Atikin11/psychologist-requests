@@ -37,6 +37,39 @@
         button:hover {
             background: #3a5a8a;
         }
+        .time-selection {
+  display: grid;
+  gap: 8px;
+  margin: 10px 0;
+}
+.time-option {
+  display: flex;
+  align-items: center;
+}
+.time-option input[type="radio"] {
+  margin-right: 10px;
+  transform: scale(1.2);
+}
+.time-option label {
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+.time-option label:hover {
+  background: #f0f0f0;
+}
+        #timeInput {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+#timeInput:focus {
+  border-color: #4CAF50;
+  outline: none;
+}
     </style>
 </head>
 <body>
@@ -73,13 +106,27 @@ ${message ? '✍️ <b>Описание:</b> ' + message : '✖️ Без опи
 
   <div class="form-group">
     <label>Время</label>
-    <select name="consultation_time" required>
-      <option value="10:00-11:00">10:00 - 11:00</option>
-      <option value="14:00-15:00">14:00 - 15:00</option>
-      <option value="18:00-19:00">18:00 - 19:00</option>
-    </select>
+  <div class="form-group">
+  <label>Укажите удобное время</label>
+  <input type="text" 
+         name="consultation_time" 
+         id="timeInput"
+         placeholder="Например: 10:00-11:30 или 14:00-15:30"
+         required
+         pattern="\d{1,2}:\d{2}-\d{1,2}:\d{2}">
+  <small>Формат: ЧЧ:ММ-ЧЧ:ММ (например, 9:30-11:00)</small>
+</div>
+</div>
   </div>
-
+<!-- Поле для ручного ввода времени -->
+<div class="form-group">
+  <label>Или укажите своё время</label>
+  <input type="text" 
+         name="custom_time" 
+         placeholder="Например: 9:30-10:15" 
+         pattern="\d{1,2}:\d{2}-\d{1,2}:\d{2}">
+  <small>Формат: ЧЧ:ММ-ЧЧ:ММ (например, 9:30-10:15)</small>
+</div>
   <div class="form-group">
     <label>Краткое описание</label>
     <textarea name="message" rows="4"></textarea>
@@ -122,6 +169,16 @@ ${formData.get('message') ? '✍️ <b>Описание:</b> ' + formData.get('m
         [{text: "✅ Подтвердить", callback_data: `accept_${Date.now()}`}],
         [{text: "🔄 Перенести", callback_data: `reschedule_${Date.now()}`}]
     });
+      <script>
+  // Подсказки при фокусе на поле времени
+  const timeInput = document.getElementById('timeInput');
+  timeInput.addEventListener('focus', () => {
+    timeInput.placeholder = "Примеры: 10:00-11:00, 14:30-15:30";
+  });
+
+  // Валидация формата времени при отправке
+  document.querySelector('form').addEventListener('submit', function(e) {
+    if (!/^\d{1,2}:\d{2}-\d{1,2}:\
     </form>
 <script>
     // Запрет прошедших дат
