@@ -49,8 +49,6 @@
 ${message ? '✍️ <b>Описание:</b> ' + message : '✖️ Без описания'}
 ━━━━━━━━━━━━
 🆔 ID: #${Date.now().toString().slice(-4)}">
-📅 ${new Date().toLocaleString('ru-RU')}
-
   <input type="hidden" name="reply_markup" value='{
   "inline_keyboard": [
     [{"text":"✅ Подтвердить", "callback_data":"accept_${Date.now()}"}],
